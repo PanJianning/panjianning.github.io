@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="en">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="论文翻译," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="福岛邦彦（Kunihiko Fukushima） NHK Broadcasting Science Research Laboratories, Kinuta, Setagaya, Tokyo, Japan. 1980 原文 |译：HistoricalReasons | 转载请注明出处 介绍 人们对大脑的模式识别机制知之甚少，只通过传统的生理实验似乎难以揭示其中奥妙。因此，我们采取了稍微不">
+<meta name="keywords" content="论文翻译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="新认知机：自组织神经网络，一种不受位置变化影响的模式识别机制">
+<meta property="og:url" content="https://www.historicalreasons.com/2020/01/07/%E6%96%B0%E8%AE%A4%E7%9F%A5%E6%9C%BA%EF%BC%9A%E8%87%AA%E7%BB%84%E7%BB%87%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%EF%BC%8C%E4%B8%80%E7%A7%8D%E4%B8%8D%E5%8F%97%E4%BD%8D%E7%BD%AE%E5%8F%98%E5%8C%96%E5%BD%B1%E5%93%8D%E7%9A%84%E6%A8%A1%E5%BC%8F%E8%AF%86%E5%88%AB%E6%9C%BA%E5%88%B6/index.html">
+<meta property="og:site_name" content="Historical Reasons">
+<meta property="og:description" content="福岛邦彦（Kunihiko Fukushima） NHK Broadcasting Science Research Laboratories, Kinuta, Setagaya, Tokyo, Japan. 1980 原文 |译：HistoricalReasons | 转载请注明出处 介绍 人们对大脑的模式识别机制知之甚少，只通过传统的生理实验似乎难以揭示其中奥妙。因此，我们采取了稍微不">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/PanJianning/HistoricalReasons/master/neocognitron-fig1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/PanJianning/HistoricalReasons/master/neocognitron-fig2.png">
+<meta property="og:updated_time" content="2020-01-11T05:33:07.248Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/PanJianning/HistoricalReasons/master/neocognitron-fig1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://www.historicalreasons.com/2020/01/07/新认知机：自组织神经网络，一种不受位置变化影响的模式识别机制/"/>
+
+
+
+
+
+  <title>新认知机：自组织神经网络，一种不受位置变化影响的模式识别机制 | Historical Reasons</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Historical Reasons</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger" target="_self">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.historicalreasons.com/2020/01/07/%E6%96%B0%E8%AE%A4%E7%9F%A5%E6%9C%BA%EF%BC%9A%E8%87%AA%E7%BB%84%E7%BB%87%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%EF%BC%8C%E4%B8%80%E7%A7%8D%E4%B8%8D%E5%8F%97%E4%BD%8D%E7%BD%AE%E5%8F%98%E5%8C%96%E5%BD%B1%E5%93%8D%E7%9A%84%E6%A8%A1%E5%BC%8F%E8%AF%86%E5%88%AB%E6%9C%BA%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Historical Reasons">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Historical Reasons">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">新认知机：自组织神经网络，一种不受位置变化影响的模式识别机制</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-07T15:15:21+08:00">
+                2020-01-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>福岛邦彦（Kunihiko Fukushima）</p>
+<p>NHK Broadcasting Science Research Laboratories, Kinuta, Setagaya, Tokyo, Japan. 1980</p>
+<p><a href="https://www.rctn.org/bruno/public/papers/Fukushima1980.pdf" target="_blank" rel="noopener">原文</a> |译：HistoricalReasons | 转载请注明出处</p>
+<h4 id="介绍">介绍</h4>
+<p>人们对大脑的模式识别机制知之甚少，只通过传统的生理实验似乎难以揭示其中奥妙。因此，我们采取了稍微不同的方法来对待这个问题。如果我们能建立一个与人类模式识别能力相同的神经网络模型，这将为我们理解大脑中的神经机制提供强有力的线索。本文讨论了如何构造一个神经网络模型，使其具有像人一样的模式识别能力。</p>
+<p>为此，一些模型曾被构造出来。(Rosenblatt, 1962; Kabrisky, 1966; Giebel, 1971;Fukushima, 1975)。然而，这些模型的响应大多都会被输入的位置和形变严重影响。因此，他们的模式识别能力并不是特别强。</p>
+<p>本文提出了一种改进的神经网络模型。其结构设计灵感源自脊椎动物的视觉神经系统。该网络是基于“无老师学习”自组织的（self-organized by "learning without a teacher")，能够基于几何相似性(Gestalt，格式塔)识别刺激模式，而不受其位置或微小形变的影响。</p>
+<p>我们称这个网络为“新认知机（neocognitron）”，因为它是“认知机（cognitron）”的延申。认知机也是作者提出的一个自组织的多层神经网络(Fukushima, 1975)，并且拥有模式识别的能力，但其响应与刺激模式的位置相关。也就是说，相同的模式在不同的位置呈现，认知机会视其为不同的模式。然而，新认知机的响应几乎不受刺激模式位置的影响。</p>
+<p>新认知机也是多层结构。且具有无监督学习的能力。在自组织的过程中，我们不需要任何“老师”，只需要向网络的输入层重复呈现一组刺激模式即可。自组织完成后，网络获得类似于Hubel和Wiesel(1962, 1965)提出的视觉神经系统层次模型的结构。</p>
+<p>根据Hubel和Wiesel的层次模型，视觉皮层的神经网络具有层次结构：LGB（外侧膝状体）-简单细胞-复杂细胞-低阶超复杂细胞（lower order hypercomplex cells）-高阶超复杂细胞（higher order hypercomplex cells）。并且，低阶超复杂细胞与高阶超复杂细胞之间的神经网络具有类似于简单细胞与复杂细胞之间的网络结构。在这个层次结构中，处于较高层次的细胞倾向于选择性地对刺激模式的更复杂特征作出反应，并且具有更大的感受域，对刺激模式的位置变化更不敏感。</p>
+<p>事实上，Hubel和Wiesel提出的层次模型并不能完全解释实验现象。比如，LGB到复杂细胞的单突触连接。然而，这并不能完全否定层次模型。我们可以认为层次模型只代表了视觉系统中信息流的主流。因此，我们的模型中还是引入了层次结构。</p>
+<p>Huber和Wiesel并没有说明在比超复杂细胞更高的阶段存在何种细胞。猴子的下颞叶皮层的一些细胞比超复杂细胞对更具体、更复杂的特征有选择性的反应(例如，三角形、正方形、猴子手的轮廓等)，并且他们的反应几乎不受刺激的位置或大小的影响(Gross et al.,1972; Sato et al., 1978)。这些细胞可能相当于所谓的“祖母细胞”。</p>
+<p>根据这些生理数据，我们扩展了Hubel和Wiesel的层次模型，并假设在比超复杂细胞更高的阶段也存在类似的层次结构。在扩展的层次模型中，处于最高阶段的细胞应该只对特定的刺激模式作出反应，而不受刺激的位置或大小的影响。</p>
+<p>这里提出的新认知机具有这样一个扩展的层次结构。自组织完成后，网络最深层细胞的反应只取决于刺激模式的形状，而不受模式出现的位置的影响。也就是说，该网络具有位置不变模式识别的能力。</p>
+<p>在工程领域，人们已经提出了许多模式识别方法，并开发了几种光学字符阅读器。虽然这些机器在阅读速度上优于人类，但在正确识别能力上却远远不如人类。光学字符阅读器的识别方法大多对输入模式的位置比较敏感，需要对输入模式的位置进行预先的归一化处理。</p>
+<p>然而，如果输入模式存在噪声或几何畸变，则很难对其进行归一化处理。因此，寻找一种能够适应输入模式位置变化的模式识别算法一直是人们的愿望。本文提出的算法也将对这一问题给出一个彻底的解决方案。</p>
+<h4 id="网络结构">网络结构</h4>
+<p>如图1所示，新认知机由一系列模块化结构的级联连接构成，这些结构之前是一个输入层<span class="math inline">\(U_0\)</span>。每个模块结构是由两层细胞级联连接。模块的第一层由<code>S-cells</code>组成，根据Hubel和Wiesel的分类，<code>S-cells</code>对应于简单细胞或低阶超复杂细胞。我们称该该层为<code>S-layer</code>，并记第l个模块中<code>S-layer</code>为<span class="math inline">\(U_{Sl}\)</span>。模块的第二层由<code>C-cells</code>组成，对应于复杂细胞或高阶超复杂细胞。我们称该该层为<code>C-layer</code>，并记第<span class="math inline">\(l\)</span>个模块中<code>C-layer</code>为<span class="math inline">\(U_{Cl}\)</span>。在新认知元中，只有<code>S-cells</code>的输入突触被认为具有可塑性和可修改性。</p>
+<p>输入层<span class="math inline">\(U_0\)</span>由光感受器阵列组成。光感受器的输出表述为<span class="math inline">\(u_0(n)\)</span>。其中<span class="math inline">\(\bf{n}=(n_x, n_y)\)</span>是表示细胞位置的二维坐标。</p>
+<p>同一层中的<code>S-cells</code>或<code>C-cells</code>根据其感受野的最佳刺激特征分组。由于每个组中的细胞都表示为二维数组，我们把组称为细胞平面(<code>cell-plane</code>)。包含<code>S-cell</code>的细胞平面称为<code>S-plane</code>。包含<code>C-cells</code>细胞平面称为<code>C-plane</code>。</p>
+<p>假设单个细胞平面上的所有细胞都具有相同的空间分布的输入突触，只有突触前细胞的位置在细胞间平行移动。因此，在一个细胞平面上的所有细胞都有相同功能的感受野，但位置不同。</p>
+<p><img src="https://raw.githubusercontent.com/PanJianning/HistoricalReasons/master/neocognitron-fig1.png" alt="neocognitron-fig1" /> <img src="https://raw.githubusercontent.com/PanJianning/HistoricalReasons/master/neocognitron-fig2.png" alt="neocognitron-fig2" /></p>
+<p>我们用<span class="math inline">\(u_{Sl}(k_l,\bf{n})\)</span>表示第<span class="math inline">\(l\)</span>个模块的第<span class="math inline">\(k_l\)</span>个<code>S-plane</code>中<code>S-cell</code>的输出, 用<span class="math inline">\(u_{Cl}(k_l,\bf{n})\)</span>表示第<span class="math inline">\(l\)</span>个模块的第<span class="math inline">\(k_l\)</span>个<code>S-plane</code>中<code>C-cell</code>的输出。其中，<span class="math inline">\(\bf{n}\)</span>为代表这些细胞在输入层中感受域位置的二维坐标。</p>
+<p>图2是层间相互连接的示意图。每一个用粗线画的四角形代表一个<code>S-plane</code>或一个<code>C-plane</code>，每一个用细线画的竖直四角形代表一个<code>S-layer</code>或<code>C-layer</code>，其中<code>S-layer</code>或<code>C-layer</code>是封闭的</p>
+<p>在图2中，每一层的单元接收来自其上一层椭圆（<em>译注：理解为卷积核的大小</em>）所包围区域内的单元的传入连接。确切地说，对于<code>S-cells</code>，图2中的椭圆部分并不是连接区域，而是可连接区域。也就是说，所有的突触连接并不总是形成，因为进入<code>S-cells</code>的突触连接具有可塑性。</p>
+<p>在图2中，为了简洁性，每个细胞平面中只显示一个细胞。事实上，一个细胞平面内的所有细胞都具有如图3所示的相同空间分布的输入突触（<em>译注：<code>cell-plane</code>到<code>cell-plane</code>是用同一个卷积核作卷积操作</em>），只是突触前细胞的位置不同。</p>
+<p>由于网络中的细胞以图2所示的级联方式相互连接，所以层越深，该层中每个细胞的接受域越大。每个细胞层的细胞密度是根据感受野大小的增加而确定的。因此，每个细胞平面的细胞总数随着网络中细胞平面深度的增加而减少。在最后一个模块中，每个<code>C-cell</code>的接受域变得非常大，以至于覆盖了整个<span class="math inline">\(U_0\)</span>输入层的面积，并且每个<code>C-plane</code>被确定为只有一个<code>C-cell</code>。</p>
+<p><code>S-cells</code>和<code>C-cells</code>是兴奋性细胞。也就是说，所有来自这些细胞的传出突触都是兴奋性的。虽然图2中没有显示，但我们在<code>S-layers</code>和<code>C-layers</code>也有抑制细胞<span class="math inline">\(V_{Sl}(\bf{n})\)</span>和<span class="math inline">\(V_{Cl}(\bf{n})\)</span>。（译注：<code>S-layer</code>上的细胞不是都叫<code>S-cell</code>吗？）</p>
+<p>下面，我们将用数值表达式来描述网络中单元的输出。</p>
+<p>在这个网络中使用的所有神经细胞都是模拟类型的。也就是说，细胞的输入和输出取与实际生物神经元放电的脉冲密度(或瞬时平均频率)成比例的非负模拟值。</p>
+<p><code>S-cells</code>具有分流型抑制输入，这与传统认知机中的细胞相似（Fukushima，1975）。</p>
+<p>第<span class="math inline">\(l\)</span>个模块的第<span class="math inline">\(k_l\)</span>个S-plane中某个<code>S-cell</code>的输出如下。</p>
+<p><span class="math display">\[u_{S l}\left(k_{l}, \mathbf{n}\right)=r_{l} \cdot \varphi\left[\frac{1+\sum_{k_{l}-1=1}^{K_{l-1}} \sum_{v \in S_{l}} a_{l}\left(k_{l-1}, \mathbf{v}, k_{l}\right) \cdot u_{C l-1}\left(k_{l-1}, \mathbf{n}+\mathbf{v}\right)}{1+\frac{2 r_{l}}{1+r_{l}} \cdot b_{l}\left(k_{l}\right) \cdot v_{C l-1}(\mathbf{n})}-1\right]\]</span> 其中， <span class="math display">\[\varphi[x]=\left\{\begin{array}{ll}
+{x} &amp; {x \geqq 0} \\
+{0} &amp; {x&lt;0}
+\end{array}\right.\]</span></p>
+<p>未完待续...</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E8%AE%BA%E6%96%87%E7%BF%BB%E8%AF%91/" rel="tag"># 论文翻译</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/15/Cross-platform-Programming-Language/" rel="next" title="Cross-platform Programming Language">
+                <i class="fa fa-chevron-left"></i> Cross-platform Programming Language
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/08/%E5%A4%A7%E8%A7%84%E6%A8%A1%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E9%A2%84%E6%B5%8B/" rel="prev" title="大规模时间序列预测">
+                大规模时间序列预测 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      <section class="sidebar-tags" id="sidebarTags">
+	<ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ElasticSearch/" rel="tag">ElasticSearch</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flask/" rel="tag">Flask</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/History/" rel="tag">History</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Language/" rel="tag">Language</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/" rel="tag">目标检测</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BA%E6%96%87%E7%BF%BB%E8%AF%91/" rel="tag">论文翻译</a><span class="tag-list-count">3</span></li></ul>
+</section>
+
+      
+
+      
+      <!--noindex-->
+        <section id="sticky" class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+
+          
+            <ul class="sidebar-nav motion-element">
+              <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+                Table of Contents
+              </li>
+            </ul>
+          
+
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#网络结构"><span class="nav-number">2.</span> <span class="nav-text">网络结构</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Historical Reasons</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '3ae4c30132449538fb3a',
+          clientSecret: 'ea3c4d94e4d6f3dc5c60f00b93afa1425c4c583f',
+          repo: 'panjianning.github.io',
+          owner: 'panjianning',
+          admin: ['panjianning'],
+          id: location.pathname.slice(0, 50),
+          distractionFreeMode: 'true',
+          language: 'en',
+        })
+        gitalk.render('gitalk-container')           
+       </script>
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+  
+
+  
+
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-76506077-2"></script>
+ <script>
+        window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+      
+        gtag('config', 'UA-76506077-2');
+</script>
+
+  <script type="text/javascript" src="/js/src/custom.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

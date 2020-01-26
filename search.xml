@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>安装mmdetection</title>
+    <url>/2020/01/26/%E5%AE%89%E8%A3%85mmdetection/</url>
+    <content><![CDATA[<h3 id="安装nccl">安装NCCL</h3>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/NVIDIA/nccl.git</span><br><span class="line">cd nccl</span><br><span class="line">make -j src.build</span><br><span class="line">apt install build-essential devscripts debhelper fakeroot</span><br><span class="line">make pkg.debian.build</span><br></pre></td></tr></table></figure>
+<p>编译出来的deb包在<code>build/pkg/deb/</code>,用<code>dpkg -i</code>安装</p>
+<h3 id="安装mmdetection">安装mmdetection</h3>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/open-mmlab/mmdetection.git</span><br><span class="line">cd mmdetection</span><br><span class="line">pip3 install mmcv</span><br><span class="line">python3 setup.py develop</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>目标检测</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>视觉皮层的预测编码</title>
+    <url>/2020/01/12/%E8%A7%86%E8%A7%89%E7%9A%AE%E5%B1%82%E7%9A%84%E9%A2%84%E6%B5%8B%E7%BC%96%E7%A0%81/</url>
+    <content><![CDATA[<p>Rajesh P. N. Rao and Dana H. Ballard</p>
+<p><a href="https://www.nature.com/articles/nn0199_79" target="_blank" rel="noopener">原文</a> | 译：HistoricalReasons | 转载请注明出处</p>
+<h3 id="摘要">摘要</h3>
+<h3 id="正文">正文</h3>
+<p>某些神经元会对特定长度的线段做出最佳反应，这最早出现在对猫和猴子视觉皮层的早期研究中。这些神经元在第2和第3皮层中特别丰富，具有末端抑制(或终抑制)的奇特特性：当相同的刺激超出神经元的经典感受野(classical receptive field)时，对最佳定向线段的强烈反应就会减弱或消除。</p>
+]]></content>
+      <tags>
+        <tag>论文翻译</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo分页错误解决</title>
+    <url>/2020/01/11/Hexo%E5%88%86%E9%A1%B5%E9%94%99%E8%AF%AF%E8%A7%A3%E5%86%B3/</url>
+    <content><![CDATA[<h3 id="原因">原因</h3>
+<p>文件<code>\themes\next\layout\_partials\pagination.swig</code>里面配置的<code>prev_text</code>和<code>next_text</code>被转义了</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">&#123;% if page.prev or page.next %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">nav</span> <span class="attr">class</span>=<span class="string">"pagination"</span>&gt;</span></span><br><span class="line">    &#123;&#123;</span><br><span class="line">      paginator(&#123;</span><br><span class="line">        prev_text: '<span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-angle-left"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span>',</span><br><span class="line">        next_text: '<span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-angle-right"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span>',</span><br><span class="line">        mid_size: 1</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;&#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">nav</span>&gt;</span></span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="解决">解决</h3>
+<p>打开<code>\node_modules\hexo\lib\plugins\helper\paginator.js</code>, 找到以下代码</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">paginatorHelper</span>(<span class="params">options = &#123;&#125;</span>) </span>&#123;</span><br><span class="line">  options = <span class="built_in">Object</span>.assign(&#123;</span><br><span class="line">    base: <span class="keyword">this</span>.page.base || <span class="string">''</span>,</span><br><span class="line">    current: <span class="keyword">this</span>.page.current || <span class="number">0</span>,</span><br><span class="line">    format: <span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.config.pagination_dir&#125;</span>/%d/`</span>,</span><br><span class="line">    total: <span class="keyword">this</span>.page.total || <span class="number">1</span>,</span><br><span class="line">    end_size: <span class="number">1</span>,</span><br><span class="line">    mid_size: <span class="number">2</span>,</span><br><span class="line">    space: <span class="string">'&amp;hellip;'</span>,</span><br><span class="line">    next_text: <span class="string">'Next'</span>,</span><br><span class="line">    prev_text: <span class="string">'Prev'</span>,</span><br><span class="line">    prev_next: <span class="literal">true</span>,</span><br><span class="line">    <span class="built_in">escape</span>: <span class="literal">true</span></span><br><span class="line">  &#125;, options);</span><br></pre></td></tr></table></figure>
+<p>将<code>escape: true</code>改为<code>escape: false</code></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>大规模时间序列预测</title>
+    <url>/2020/01/08/%E5%A4%A7%E8%A7%84%E6%A8%A1%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E9%A2%84%E6%B5%8B/</url>
+    <content><![CDATA[<p>Sean J. Taylor， Benjamin Letham</p>
+<p><a href="https://peerj.com/preprints/3190.pdf" target="_blank" rel="noopener">原文</a> |译：HistoricalReasons | 转载请注明出处</p>
+<h4 id="prophet时间序列预测模型">Prophet时间序列预测模型</h4>
+<p>我们使用一个可分解的时间序列模型(Harvey &amp; Peters 1990)，其中包含三个主要成分:趋势性、季节性和节假日。如下方程：</p>
+<p><span class="math display">\[y(t)=g(t)+s(t)+h(t)+\epsilon_{t} \tag{1}\]</span></p>
+<p>这里<span class="math inline">\(g(t)\)</span>是对时间序列的非周期性变化进行建模的趋势函数，<span class="math inline">\(s(t)\)</span>表示周期性变化(例如，每周和每年的季节性)，<span class="math inline">\(h(t)\)</span>表示在一天或多天内可能发生不规律的假期的影响。误差项<span class="math inline">\(\epsilon_{t}\)</span>表示模型不能适应的任何特殊变化;稍后我们将做t是正态分布的参数假设。</p>
+<p>该规范类似于广义加性模型(GAM) (Hastie &amp; Tibshirani 1987)，这是一类回归模型。（译注：<a href="https://en.wikipedia.org/wiki/Generalized_additive_model" target="_blank" rel="noopener">可参考Wikipedia</a>）。将季节性建模为一个加性成分与指数平滑法采用的方法相同(Gardner 1985)。对于乘性季节性，通过对数变换也能化为形式<span class="math inline">\((1)\)</span>（TODO：需要解释）。</p>
+<p>实际上，我们把预测问题定以为一个曲线拟合问题，它与明确说明数据中时间依赖结构的时间序列模型有内在的不同。虽然我们放弃了使用ARIMA等生成模型的一些重要推论优势，但这个公式提供了许多实用优势：</p>
+<ul>
+<li>灵活性:我们可以很容易地适应多周期季节性，并让分析师对趋势做出不同的假设。</li>
+<li>与ARIMA模型不同的是，数据不需要固定间隔，也不需要插入缺失的值</li>
+<li>拟合迅速</li>
+<li>预测模型有很容易解释的参数，可以由分析人员更改这些参数以对预测进行假设。此外，分析师通常有回归的经验，很容易扩展模型以包含新的成分。</li>
+</ul>
+<h4 id="趋势性成分">趋势性成分</h4>
+<p>我们已经实现了两个覆盖许多Facebook应用场景的趋势模型:饱和增长模型和分段线性模型。</p>
+<h5 id="非线性饱和增长模型">非线性、饱和增长模型</h5>
+<p>Facebook的增长模型通常类似于自然生态系统中的人口增长(例如，Hutchinson 1978)，存在一个承载能力的极限。例如，某个特定区域的Facebook用户数量的承载能力可能是能够访问Internet的人数。这种增长通常使用logistic增长模型，其最基本的形式是</p>
+<p><span class="math display">\[g(t)=\frac{C}{1+\exp (-k(t-m))} \tag{2}\]</span></p>
+<p>其中，以<span class="math inline">\(C\)</span>为承载能力，<span class="math inline">\(k\)</span>为生长速率，<span class="math inline">\(m\)</span>为偏移参数。 （译注：<span class="math inline">\(t=m\)</span>时，<span class="math inline">\(g(t)=C\)</span> ; <span class="math inline">\(t \to +\infty\)</span>时，<span class="math inline">\(g(t)\to C\)</span> ; <span class="math inline">\(t \to -\infty\)</span>时，<span class="math inline">\(g(t)\to 0\)</span>）</p>
+<p>Facebook的增长有两个重要方面没有体现在<span class="math inline">\((2)\)</span>中。首先，随着世界上能够上网的人数的增加，Facebook的承载能力并不是恒定不变的，增长的上限也是如此。因此，我们用时变容量<span class="math inline">\(C(t)\)</span>来代替固定容量<span class="math inline">\(C\)</span>。</p>
+<p>第二，增长率不是恒定的。新产品的出现会改变一个地区的增长率，因此该模型必须能够纳入一个变化的增长率，以适应历史数据。</p>
+<p>通过明确定义允许增长率变化的变化点(changepoint)，我们将增长率变化纳入到增长模型中，假设存在<span class="math inline">\(S\)</span>个增长率变化点，设这些点所在时刻为<span class="math inline">\(s_j, j=1,2,\cdots,S\)</span>. 我们用<span class="math inline">\(S\)</span>维度向量<span class="math inline">\(\boldsymbol{\delta} \in \mathbb{R}^{S}\)</span>表示增长率变化，其中<span class="math inline">\(\delta_j\)</span>为时刻<span class="math inline">\(s_j\)</span>的增长率变化。然后，我们将时刻<span class="math inline">\(t\)</span>的增长率定义为基础增长率<span class="math inline">\(k\)</span>与<span class="math inline">\(t\)</span>时刻之前所有增长率变化的和：</p>
+<p><span class="math display">\[k+\sum_{j: t&gt;s_{j}} \delta_{j}\]</span></p>
+<p>为了表示方便，定义<span class="math inline">\(S\)</span>维向量<span class="math inline">\(\mathbf{a}(t) \in\{0,1\}^{S}\)</span>，使得</p>
+<p><span class="math display">\[a_{j}(t)=\left\{\begin{array}{ll}
+{1,} &amp; {\text { if } t \gt s_{j}} \\
+{0,} &amp; {\text { otherwise }}
+\end{array}\right.\]</span></p>
+<p>则<span class="math inline">\(t\)</span>时刻的增长率为:</p>
+<p><span class="math display">\[k+\mathbf{a}(t)^{\top} \boldsymbol{\delta}\]</span></p>
+<p>在任意变化点<span class="math inline">\(s_j\)</span>，我们需要保持函数的连续性，这得相应的调整偏移参数m。使得</p>
+<p><span class="math display">\[\frac{C(s_j)}{1+\exp \left(-\left(k+\mathbf{a}(s_j)^{\top} \boldsymbol{\delta}\right)\left(t-m(s_j)\right)\right)}=\frac{C(s_{j})}{1+\exp \left(-\left(k+\mathbf{a}(s_{j+1})^{\top} \boldsymbol{\delta}\right)\left(t-m(s_{j+1})\right)\right)}\]</span></p>
+<p>即</p>
+<p><span class="math display">\[\left(k+\mathbf{a}\left(s_{j}\right)^{\top} \boldsymbol{\delta}\right)\left(t-m\left(s_{j}\right)\right)=
+\left(k+\mathbf{a}\left(s_{j+1}\right)^{\top} \boldsymbol{\delta}\right)\left(t-m\left(s_{j+1}\right)\right)\]</span></p>
+<p>可得（暂时忽略一些步骤...）</p>
+<p><span class="math display">\[m(t)=m+\mathbf{a}(t)^{\top} \gamma\]</span></p>
+<p>其中</p>
+<p><span class="math display">\[\gamma_{j}=\left(s_{j}-m-\sum_{l&lt;j} \gamma_{l}\right)\left(1-\frac{k+\sum_{l&lt;j} \delta_{l}}{k+\sum_{l \leq j} \delta_{l}}\right) \tag{3}\]</span></p>
+<p>模型中的一组重要参数是<span class="math inline">\(C(t)\)</span>，即系统在任何时间点的预期容量。分析师通常能够洞察市场规模，并据此进行设定。也可能有外部数据源可以提供预期容量。</p>
+<p>最终，分段logistic增长模型为： <span class="math display">\[g(t)=\frac{C(t)}{1+\exp \left(-\left(k+\mathbf{a}(t)^{\top} \boldsymbol{\delta}\right)\left(t-\left(m+\mathbf{a}(t)^{\mathrm{T}} \boldsymbol{\gamma}\right)\right)\right)}\]</span></p>
+<h5 id="带变化的的线性增长模型">带变化的的线性增长模型</h5>
+<p>前面那个能懂的话，下面这个就不作多余叙述了</p>
+<p><span class="math display">\[g(t)=\left(k+\mathbf{a}(t)^{\top} \boldsymbol{\delta}\right) t+\left(m+\mathbf{a}(t)^{\top} \boldsymbol{\gamma}\right) \tag{4}\]</span></p>
+<h5 id="自动检测变化点">自动检测变化点</h5>
+<p>......</p>
+<h5 id="趋势预测的置信区间">趋势预测的置信区间</h5>
+<p>......</p>
+<h4 id="季节性成分">季节性成分</h4>
+<p>我们依靠傅立叶级数提供一个灵活的周期性模型（Harvey &amp; Shephard 1993）。假设P是我们期望时间序列具有的正常周期（例如，当我们以天为粒度时，对于年度数据<span class="math inline">\(P = 365.25\)</span>，对于每周数据<span class="math inline">\(P = 7\)</span>）。我们可以用标准的傅立叶级数近似任意平滑的季节效应（译注：不太了解傅里叶级数的话，可参考<a href="https://www.zhihu.com/question/19714540/answer/334686351" target="_blank" rel="noopener">知乎</a>）</p>
+<p><span class="math display">\[s(t)=\sum_{n=1}^{N}\left(a_{n} \cos \left(\frac{2 \pi n t}{P}\right)+b_{n} \sin \left(\frac{2 \pi n t}{P}\right)\right)\]</span></p>
+<p>拟合季节性需要估计<span class="math inline">\(2N\)</span>个参数<span class="math inline">\(\boldsymbol{\beta}=\left[a_{1}, b_{1}, \ldots, a_{N}, b_{N}\right]^{\top}\)</span>。记</p>
+<p><span class="math display">\[X(t)=\left[\cos \left(\frac{2 \pi(1) t}{P}\right), \ldots, \cos \left(\frac{2 \pi(N) t}{P}\right), \sin \left(\frac{2 \pi(1) t}{P}\right), \ldots, \sin \left(\frac{2 \pi(N) t}{P}\right)\right]\]</span></p>
+<p>则</p>
+<p><span class="math display">\[s(t)=X(t) \boldsymbol{\beta}\]</span></p>
+<p>其中，<span class="math inline">\(\boldsymbol{\beta}先验分布设为：\)</span><span class="math inline">\(\boldsymbol{\beta} \sim \operatorname{Normal}\left(0, \sigma^{2}\right)\)</span></p>
+<p>对于傅里叶展开中的超参数N，增加N允许对变化更快的季节模式进行拟合，但会增加过度拟合的风险。对于年和周的季节性(假设一天一个点)，我们发现<span class="math inline">\(N = 10\)</span>和<span class="math inline">\(N = 3\)</span>比较合适。可以使用AIC（Akaike information criterion）等模型选择方法来自动选择这些参数。</p>
+<h4 id="节假日与特殊事件">节假日与特殊事件</h4>
+<p>设<span class="math inline">\(D_i\)</span>为包含节假日类型i的日期集合。用指示函数表示时刻t是否属于各种节假日。</p>
+<p><span class="math display">\[Z(t)=\left[\mathbf{1}\left(t \in D_{1}\right), \ldots, \mathbf{1}\left(t \in D_{L}\right)\right]\]</span></p>
+<p>节假日建模为</p>
+<p><span class="math display">\[h(t)=Z(t) \boldsymbol{\kappa}\]</span>,</p>
+<p>其中，<span class="math inline">\(\boldsymbol{\kappa}\)</span>先验分布设为<span class="math inline">\(\boldsymbol{\kappa} \sim \operatorname{Normal}\left(0, \nu^{2}\right)\)</span></p>
+<h4 id="模型拟合">模型拟合</h4>
+<p>对于季节性和节假日，超参数<span class="math inline">\(N\)</span>,<span class="math inline">\(P\)</span>和节假日日期设置好后，<span class="math inline">\(X(t)\)</span>就确定了。表示上，节假日的<span class="math inline">\(X(t)\)</span>可以合并进季节性里面，对应的，<span class="math inline">\(\boldsymbol{\kappa}\)</span>也可以合并进<span class="math inline">\(\boldsymbol{\beta}\)</span>。</p>
+<p>需要估计的参数为</p>
+<ol type="1">
+<li>趋势项-基础变化率<span class="math inline">\(k\)</span>，一维随机变量</li>
+<li>趋势项-基础偏移<span class="math inline">\(m\)</span>，一维随机变量</li>
+<li>趋势项-增长率变化<span class="math inline">\(\boldsymbol{\delta}\)</span>，<span class="math inline">\(S\)</span>维随机变量</li>
+<li>误差项<span class="math inline">\(\boldsymbol{\epsilon}\)</span>，一维随机变量</li>
+<li>季节和节假日<span class="math inline">\(\boldsymbol{\epsilon}\)</span>, <span class="math inline">\(N+I\)</span>维随机变量。<span class="math inline">\(N\)</span>为傅里叶展开中的<span class="math inline">\(N\)</span>, <span class="math inline">\(I\)</span>表示有<span class="math inline">\(I\)</span>种节假日。</li>
+</ol>
+<h5 id="stan示例代码">stan示例代码</h5>
+<p>（<a href="https://github.com/stan-dev/stan" target="_blank" rel="noopener">了解stan</a>）</p>
+<figure>
+<img src="https://raw.githubusercontent.com/PanJianning/HistoricalReasons/master/prophet-stan.png" alt="" /><figcaption>prophet stan</figcaption>
+</figure>
+]]></content>
+      <tags>
+        <tag>论文翻译</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>新认知机：自组织神经网络，一种不受位置变化影响的模式识别机制</title>
+    <url>/2020/01/07/%E6%96%B0%E8%AE%A4%E7%9F%A5%E6%9C%BA%EF%BC%9A%E8%87%AA%E7%BB%84%E7%BB%87%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%EF%BC%8C%E4%B8%80%E7%A7%8D%E4%B8%8D%E5%8F%97%E4%BD%8D%E7%BD%AE%E5%8F%98%E5%8C%96%E5%BD%B1%E5%93%8D%E7%9A%84%E6%A8%A1%E5%BC%8F%E8%AF%86%E5%88%AB%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<p>福岛邦彦（Kunihiko Fukushima）</p>
+<p>NHK Broadcasting Science Research Laboratories, Kinuta, Setagaya, Tokyo, Japan. 1980</p>
+<p><a href="https://www.rctn.org/bruno/public/papers/Fukushima1980.pdf" target="_blank" rel="noopener">原文</a> |译：HistoricalReasons | 转载请注明出处</p>
+<h4 id="介绍">介绍</h4>
+<p>人们对大脑的模式识别机制知之甚少，只通过传统的生理实验似乎难以揭示其中奥妙。因此，我们采取了稍微不同的方法来对待这个问题。如果我们能建立一个与人类模式识别能力相同的神经网络模型，这将为我们理解大脑中的神经机制提供强有力的线索。本文讨论了如何构造一个神经网络模型，使其具有像人一样的模式识别能力。</p>
+<p>为此，一些模型曾被构造出来。(Rosenblatt, 1962; Kabrisky, 1966; Giebel, 1971;Fukushima, 1975)。然而，这些模型的响应大多都会被输入的位置和形变严重影响。因此，他们的模式识别能力并不是特别强。</p>
+<p>本文提出了一种改进的神经网络模型。其结构设计灵感源自脊椎动物的视觉神经系统。该网络是基于“无老师学习”自组织的（self-organized by "learning without a teacher")，能够基于几何相似性(Gestalt，格式塔)识别刺激模式，而不受其位置或微小形变的影响。</p>
+<p>我们称这个网络为“新认知机（neocognitron）”，因为它是“认知机（cognitron）”的延申。认知机也是作者提出的一个自组织的多层神经网络(Fukushima, 1975)，并且拥有模式识别的能力，但其响应与刺激模式的位置相关。也就是说，相同的模式在不同的位置呈现，认知机会视其为不同的模式。然而，新认知机的响应几乎不受刺激模式位置的影响。</p>
+<p>新认知机也是多层结构。且具有无监督学习的能力。在自组织的过程中，我们不需要任何“老师”，只需要向网络的输入层重复呈现一组刺激模式即可。自组织完成后，网络获得类似于Hubel和Wiesel(1962, 1965)提出的视觉神经系统层次模型的结构。</p>
+<p>根据Hubel和Wiesel的层次模型，视觉皮层的神经网络具有层次结构：LGB（外侧膝状体）-简单细胞-复杂细胞-低阶超复杂细胞（lower order hypercomplex cells）-高阶超复杂细胞（higher order hypercomplex cells）。并且，低阶超复杂细胞与高阶超复杂细胞之间的神经网络具有类似于简单细胞与复杂细胞之间的网络结构。在这个层次结构中，处于较高层次的细胞倾向于选择性地对刺激模式的更复杂特征作出反应，并且具有更大的感受域，对刺激模式的位置变化更不敏感。</p>
+<p>事实上，Hubel和Wiesel提出的层次模型并不能完全解释实验现象。比如，LGB到复杂细胞的单突触连接。然而，这并不能完全否定层次模型。我们可以认为层次模型只代表了视觉系统中信息流的主流。因此，我们的模型中还是引入了层次结构。</p>
+<p>Huber和Wiesel并没有说明在比超复杂细胞更高的阶段存在何种细胞。猴子的下颞叶皮层的一些细胞比超复杂细胞对更具体、更复杂的特征有选择性的反应(例如，三角形、正方形、猴子手的轮廓等)，并且他们的反应几乎不受刺激的位置或大小的影响(Gross et al.,1972; Sato et al., 1978)。这些细胞可能相当于所谓的“祖母细胞”。</p>
+<p>根据这些生理数据，我们扩展了Hubel和Wiesel的层次模型，并假设在比超复杂细胞更高的阶段也存在类似的层次结构。在扩展的层次模型中，处于最高阶段的细胞应该只对特定的刺激模式作出反应，而不受刺激的位置或大小的影响。</p>
+<p>这里提出的新认知机具有这样一个扩展的层次结构。自组织完成后，网络最深层细胞的反应只取决于刺激模式的形状，而不受模式出现的位置的影响。也就是说，该网络具有位置不变模式识别的能力。</p>
+<p>在工程领域，人们已经提出了许多模式识别方法，并开发了几种光学字符阅读器。虽然这些机器在阅读速度上优于人类，但在正确识别能力上却远远不如人类。光学字符阅读器的识别方法大多对输入模式的位置比较敏感，需要对输入模式的位置进行预先的归一化处理。</p>
+<p>然而，如果输入模式存在噪声或几何畸变，则很难对其进行归一化处理。因此，寻找一种能够适应输入模式位置变化的模式识别算法一直是人们的愿望。本文提出的算法也将对这一问题给出一个彻底的解决方案。</p>
+<h4 id="网络结构">网络结构</h4>
+<p>如图1所示，新认知机由一系列模块化结构的级联连接构成，这些结构之前是一个输入层<span class="math inline">\(U_0\)</span>。每个模块结构是由两层细胞级联连接。模块的第一层由<code>S-cells</code>组成，根据Hubel和Wiesel的分类，<code>S-cells</code>对应于简单细胞或低阶超复杂细胞。我们称该该层为<code>S-layer</code>，并记第l个模块中<code>S-layer</code>为<span class="math inline">\(U_{Sl}\)</span>。模块的第二层由<code>C-cells</code>组成，对应于复杂细胞或高阶超复杂细胞。我们称该该层为<code>C-layer</code>，并记第<span class="math inline">\(l\)</span>个模块中<code>C-layer</code>为<span class="math inline">\(U_{Cl}\)</span>。在新认知元中，只有<code>S-cells</code>的输入突触被认为具有可塑性和可修改性。</p>
+<p>输入层<span class="math inline">\(U_0\)</span>由光感受器阵列组成。光感受器的输出表述为<span class="math inline">\(u_0(n)\)</span>。其中<span class="math inline">\(\bf{n}=(n_x, n_y)\)</span>是表示细胞位置的二维坐标。</p>
+<p>同一层中的<code>S-cells</code>或<code>C-cells</code>根据其感受野的最佳刺激特征分组。由于每个组中的细胞都表示为二维数组，我们把组称为细胞平面(<code>cell-plane</code>)。包含<code>S-cell</code>的细胞平面称为<code>S-plane</code>。包含<code>C-cells</code>细胞平面称为<code>C-plane</code>。</p>
+<p>假设单个细胞平面上的所有细胞都具有相同的空间分布的输入突触，只有突触前细胞的位置在细胞间平行移动。因此，在一个细胞平面上的所有细胞都有相同功能的感受野，但位置不同。</p>
+<p><img src="https://raw.githubusercontent.com/PanJianning/HistoricalReasons/master/neocognitron-fig1.png" alt="neocognitron-fig1" /> <img src="https://raw.githubusercontent.com/PanJianning/HistoricalReasons/master/neocognitron-fig2.png" alt="neocognitron-fig2" /></p>
+<p>我们用<span class="math inline">\(u_{Sl}(k_l,\bf{n})\)</span>表示第<span class="math inline">\(l\)</span>个模块的第<span class="math inline">\(k_l\)</span>个<code>S-plane</code>中<code>S-cell</code>的输出, 用<span class="math inline">\(u_{Cl}(k_l,\bf{n})\)</span>表示第<span class="math inline">\(l\)</span>个模块的第<span class="math inline">\(k_l\)</span>个<code>S-plane</code>中<code>C-cell</code>的输出。其中，<span class="math inline">\(\bf{n}\)</span>为代表这些细胞在输入层中感受域位置的二维坐标。</p>
+<p>图2是层间相互连接的示意图。每一个用粗线画的四角形代表一个<code>S-plane</code>或一个<code>C-plane</code>，每一个用细线画的竖直四角形代表一个<code>S-layer</code>或<code>C-layer</code>，其中<code>S-layer</code>或<code>C-layer</code>是封闭的</p>
+<p>在图2中，每一层的单元接收来自其上一层椭圆（<em>译注：理解为卷积核的大小</em>）所包围区域内的单元的传入连接。确切地说，对于<code>S-cells</code>，图2中的椭圆部分并不是连接区域，而是可连接区域。也就是说，所有的突触连接并不总是形成，因为进入<code>S-cells</code>的突触连接具有可塑性。</p>
+<p>在图2中，为了简洁性，每个细胞平面中只显示一个细胞。事实上，一个细胞平面内的所有细胞都具有如图3所示的相同空间分布的输入突触（<em>译注：<code>cell-plane</code>到<code>cell-plane</code>是用同一个卷积核作卷积操作</em>），只是突触前细胞的位置不同。</p>
+<p>由于网络中的细胞以图2所示的级联方式相互连接，所以层越深，该层中每个细胞的接受域越大。每个细胞层的细胞密度是根据感受野大小的增加而确定的。因此，每个细胞平面的细胞总数随着网络中细胞平面深度的增加而减少。在最后一个模块中，每个<code>C-cell</code>的接受域变得非常大，以至于覆盖了整个<span class="math inline">\(U_0\)</span>输入层的面积，并且每个<code>C-plane</code>被确定为只有一个<code>C-cell</code>。</p>
+<p><code>S-cells</code>和<code>C-cells</code>是兴奋性细胞。也就是说，所有来自这些细胞的传出突触都是兴奋性的。虽然图2中没有显示，但我们在<code>S-layers</code>和<code>C-layers</code>也有抑制细胞<span class="math inline">\(V_{Sl}(\bf{n})\)</span>和<span class="math inline">\(V_{Cl}(\bf{n})\)</span>。（译注：<code>S-layer</code>上的细胞不是都叫<code>S-cell</code>吗？）</p>
+<p>下面，我们将用数值表达式来描述网络中单元的输出。</p>
+<p>在这个网络中使用的所有神经细胞都是模拟类型的。也就是说，细胞的输入和输出取与实际生物神经元放电的脉冲密度(或瞬时平均频率)成比例的非负模拟值。</p>
+<p><code>S-cells</code>具有分流型抑制输入，这与传统认知机中的细胞相似（Fukushima，1975）。</p>
+<p>第<span class="math inline">\(l\)</span>个模块的第<span class="math inline">\(k_l\)</span>个S-plane中某个<code>S-cell</code>的输出如下。</p>
+<p><span class="math display">\[u_{S l}\left(k_{l}, \mathbf{n}\right)=r_{l} \cdot \varphi\left[\frac{1+\sum_{k_{l}-1=1}^{K_{l-1}} \sum_{v \in S_{l}} a_{l}\left(k_{l-1}, \mathbf{v}, k_{l}\right) \cdot u_{C l-1}\left(k_{l-1}, \mathbf{n}+\mathbf{v}\right)}{1+\frac{2 r_{l}}{1+r_{l}} \cdot b_{l}\left(k_{l}\right) \cdot v_{C l-1}(\mathbf{n})}-1\right]\]</span> 其中， <span class="math display">\[\varphi[x]=\left\{\begin{array}{ll}
+{x} &amp; {x \geqq 0} \\
+{0} &amp; {x&lt;0}
+\end{array}\right.\]</span></p>
+<p>未完待续...</p>
+]]></content>
+      <tags>
+        <tag>论文翻译</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Cross-platform Programming Language</title>
+    <url>/2019/12/15/Cross-platform-Programming-Language/</url>
+    <content><![CDATA[<h3 id="the-question">The Question</h3>
+<p>When asked what is the advantage of interpreted languages, people usually answer that they are cross-platform. But aren't compiled languages like C++ cross-platform? Obviously, C++ programs can run on both Windows and Linux systems.</p>
+<h3 id="cross-platform-in-different-sense">Cross-platform in different sense</h3>
+<p><em>Standard</em> C++ is cross-platform in "Write Once, Compile Anywhere" sense, but not in the "Compile Once, Run Anywhere" Sense. You can' compile you C++ source code into binary executable file on Windows System and then expect that it can run on Linux System.</p>
+<p>But for interpretd Language, you can expect the feature "Write Once, Run Anywhere", providing that the language interpreter is available on the target system.</p>
+<h3 id="language-combiles-compiling-and-interpreting">Language combiles compiling and interpreting</h3>
+<p>One of Java's goal is "Write Once, Run AnyWhere". But java's not simply a interreted langauge or compiled language. It combines both.</p>
+<figure>
+<img src="https://raw.githubusercontent.com/PanJianning/HistoricalReasons/master/java.jpg" alt="" /><figcaption>java</figcaption>
+</figure>
+<p>Java source code is compiled into java bytecode(.class file) by the java compiler. The bytecode can be executed by a Java Virual Machine in interpreted fashion. Modern JVM use Just-in-Time compilation technique to compile the bytecode to native instructions understood by CPU on the fly at runtime.</p>
+<p>So, we can say that Java's cross-platform feature is guaranteed by the availbility of JVM on different platform.</p>
+<p>BTW, Many languages combine compiling and interpreting by using a intermediate representation like bytecode in Java, since interpreting on the fly is time-comsuming compared to executing binary code directly. For example, Python has byte code stored in .pyc files</p>
+]]></content>
+      <tags>
+        <tag>Language</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>The History and Purpose of CGI</title>
+    <url>/2019/12/14/The-History-and-Purpose-of-CGI/</url>
+    <content><![CDATA[<h3 id="what-is-cgi">What is CGI</h3>
+<p>Common Gateway Interface (CGI) is an interface specification for web servers to execute programs, known as CGI scripts, to generate web pages dynamically.</p>
+<p>### History The well-known Apache HTTP Server is originally based on the NCSA HTTPd server. NCSA HTTPd is an early, now discontinued, web server originally developed at the NCSA at the University of Illinois at Urbana–Champaign by Robert McCool and others. In 1993, NCSA introduced the Common Gateway Interface, allowing for the creation of dynamic websites.</p>
+<p>### Purpose Each web server runs HTTP server software, which responds to requests from web browsers. Generally, the HTTP server has a directory (folder), which is designated as a document collection — files that can be sent to Web browsers connected to this server. For example, if the Web server has the domain name <code>example.com</code>, and its document collection is stored at <code>/usr/local/apache/htdocs</code> in the local file system, then the Web server will respond to a request for <code>http://example.com/index.html</code> by sending to the browser the (pre-written) file <code>/usr/local/apache/htdocs/index.html</code>.</p>
+<p>For pages constructed on the fly, the server software may defer requests to separate programs and relay the results to the requesting client (usually, a web browser that displays the page to the end user). In the early days of the web, such programs were usually small and written in a scripting language; hence, they were known as scripts.</p>
+<p>Such programs usually require some additional information to be specified with the request. For instance, if Wikipedia were implemented as a script, one thing the script would need to know is whether the user is logged in and, if logged in, under which name. The content at the top of a Wikipedia page depends on this information.</p>
+<p>HTTP provides ways for browsers to pass such information to the web server, e.g. as part of the URL. The server software must then pass this information through to the script somehow.</p>
+<p>Conversely, upon returning, the script must provide all the information required by HTTP for a response to the request: the HTTP status of the request, the document content (if available), the document type (e.g. HTML, PDF, or plain text), et cetera.</p>
+<p>Initially, different server software would use different ways to exchange this information with scripts. As a result, it wasn't possible to write scripts that would work unmodified for different server software, even though the information being exchanged was the same. Therefore, it was decided to specify a way for exchanging this information: CGI (the Common Gateway Interface, as it defines a common way for server software to interface with scripts). Webpage generating programs invoked by server software that operate according to the CGI specification are known as CGI scripts</p>
+<h3 id="how-http-request-information-transfered-between-the-server-and-the-script.">How HTTP request information transfered between the server and the script.</h3>
+<p>the CGI specification defines how additional information passed with the request is passed to the script. For instance, if a slash and additional directory name(s) are appended to the URL immediately after the name of the script (in this example, <code>/with/additional/path</code>), then that path is stored in the <code>PATH_INFO</code> environment variable before the script is called. If parameters are sent to the script via an HTTP GET request (a question mark appended to the URL, followed by <code>param=value</code> pairs; in the example, <code>?and=a&amp;query=string</code>), then those parameters are stored in the <code>QUERY_STRING</code> environment variable before the script is called. If parameters are sent to the script via an HTTP POST request, they are passed to the script's standard input. The script can then read these environment variables or data from standard input and adapt to the Web browser's request.</p>
+<hr />
+<p>Reference: * <a href="https://en.wikipedia.org/wiki/Common_Gateway_Interface" target="_blank" rel="noopener">Wikipedia: CGI</a></p>
+]]></content>
+      <tags>
+        <tag>History</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Fix Gitalk Validation Failed Error</title>
+    <url>/2019/12/14/Fix-Gitalk-Validation-Failed-Error/</url>
+    <content><![CDATA[<h3 id="what-is-gitalk">What is Gitalk</h3>
+<p>Gitalk is a comment component based on Github Issue</p>
+<h3 id="error-validation-failed">Error: Validation Failed</h3>
+<p>Gitalk uses label to distinguish comments from different articles, but github label name has a maximum length limitation of 50 characters.</p>
+<p>When we set the gitalk id to location.pathname, and it has more then 50 characters, we encounter</p>
+<blockquote>
+<p>Error: Validation Failed</p>
+</blockquote>
+<p>A possible way to fixed this is to slice the id to 50 characters.</p>
+<h3 id="example-configuration">Example Configuration</h3>
+<p>This example is for Hexo users.</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">&#123;% if page.comments &amp;&amp; theme.gitalk.enable %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"https://unpkg.com/gitalk/dist/gitalk.css"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://unpkg.com/gitalk/dist/gitalk.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> gitalk = <span class="keyword">new</span> Gitalk(&#123;</span></span><br><span class="line"><span class="actionscript">          clientID: <span class="string">'&#123;&#123; theme.gitalk.ClientID &#125;&#125;'</span>,</span></span><br><span class="line"><span class="actionscript">          clientSecret: <span class="string">'&#123;&#123; theme.gitalk.ClientSecret &#125;&#125;'</span>,</span></span><br><span class="line"><span class="actionscript">          repo: <span class="string">'&#123;&#123; theme.gitalk.repo &#125;&#125;'</span>,</span></span><br><span class="line"><span class="actionscript">          owner: <span class="string">'&#123;&#123; theme.gitalk.githubID &#125;&#125;'</span>,</span></span><br><span class="line"><span class="actionscript">          admin: [<span class="string">'&#123;&#123; theme.gitalk.adminUser &#125;&#125;'</span>],</span></span><br><span class="line">          id: location.pathname.slice(0, 50),</span><br><span class="line"><span class="actionscript">          distractionFreeMode: <span class="string">'&#123;&#123; theme.gitalk.distractionFreeMode &#125;&#125;'</span>,</span></span><br><span class="line"><span class="actionscript">          language: <span class="string">'en'</span>,</span></span><br><span class="line">        &#125;)</span><br><span class="line"><span class="actionscript">        gitalk.render(<span class="string">'gitalk-container'</span>)  </span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Build and Deploy Flask App with Gunicorn on Docker</title>
+    <url>/2019/12/13/Build-and-Deploy-Flask-App-with-Gunicorn-on-Docker/</url>
+    <content><![CDATA[<h3 id="file-structure">File structure</h3>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MyAPP&#x2F;</span><br><span class="line">├── Dockerfile</span><br><span class="line">├── gunicorn.conf.py</span><br><span class="line">├── main.py</span><br><span class="line">└── requirements.txt</span><br></pre></td></tr></table></figure>
+<h3 id="flask-app">Flask App</h3>
+<p>A hello-world flask app:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># main.py</span></span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'hello docker'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    app.run(debug=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="create-requirements.txt">Create requirements.txt</h4>
+<p>Firstly we need to generate requirements.txt</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip3 install pipreqs</span><br></pre></td></tr></table></figure>
+<p>Run pipreqs in current working directory</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pipreqs . --encoding 'utf-8'</span><br></pre></td></tr></table></figure>
+<p>It generate the requirements.txt:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># requirements.txt</span></span><br><span class="line">flask</span><br></pre></td></tr></table></figure>
+<p>Add gevent, gunicorn to it manually:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># requirements.txt</span></span><br><span class="line">flask</span><br><span class="line">gunicorn</span><br><span class="line">gevent</span><br></pre></td></tr></table></figure>
+<p>To install requirements, run</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip3 install -r requirements.txt</span><br></pre></td></tr></table></figure>
+<h4 id="gunicorn-configuration">Gunicorn configuration</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># gunicorn.conf.py</span></span><br><span class="line">workers = <span class="number">4</span></span><br><span class="line">worker_class = <span class="string">"gevent"</span></span><br><span class="line">bind = <span class="string">"0.0.0.0:1984"</span></span><br></pre></td></tr></table></figure>
+<p>You can use the gunicorn command to test if it works correctly. Open the url 127.0.0.1:80 and it will open our website</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">gunicorn start:app -c gunicorn.conf.py</span><br></pre></td></tr></table></figure>
+<h3 id="deploy-with-docker">Deploy with Docker</h3>
+<h4 id="create-dockerfile">Create Dockerfile</h4>
+<p>Dockerfile is needed to build a docker image</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">FROM python:<span class="number">3.6</span></span><br><span class="line">WORKDIR /MyApp</span><br><span class="line">COPY requirements.txt ./</span><br><span class="line">RUN pip3 install -r requirements.txt</span><br><span class="line">COPY . .</span><br><span class="line">CMD [<span class="string">"gunicorn"</span>, <span class="string">"main:app"</span>, <span class="string">"-c"</span>, <span class="string">"./gunicorn.conf.py"</span>]</span><br></pre></td></tr></table></figure>
+<h4 id="build-docker-image">Build docker image</h4>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo docker build -t 'myapp:tag_test' .</span><br></pre></td></tr></table></figure>
+<p>It may take some time to build the image. When it's done, we can check images list with command:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo docker images</span><br></pre></td></tr></table></figure>
+<h4 id="run-the-docker-image">Run the docker image</h4>
+<p>Not as daemon:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo docker run -it --rm -p 80:1984 myapp:tag_test</span><br></pre></td></tr></table></figure>
+<p>As daemon:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo docker run -d -p 80:1984 --name myapp-test myapp:tag_test</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Python</tag>
+        <tag>Docker</tag>
+        <tag>Flask</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Datetime and Timestamp Converting in Python</title>
+    <url>/2019/12/10/Datetime-and-Timestamp-Converting-in-Python/</url>
+    <content><![CDATA[<h3 id="timestamp-to-datetime">Timestamp to datetime</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">timestamp_to_datetime</span><span class="params">(timestamp, fmt=<span class="string">"%Y-%m-%d %H:%M:%S"</span>)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> datetime.datetime.fromtimestamp(timestamp). \</span><br><span class="line">        strftime(fmt)</span><br></pre></td></tr></table></figure>
+<p>example <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">timestamp_to_datetime(<span class="number">1575990617</span>) <span class="comment"># get '2019-12-10 23:10:17'</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="datetime-to-timestmap">Datetime to timestmap</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">datetime_to_timestamp</span><span class="params">(dt, fmt=<span class="string">"%Y-%m-%d %H:%M:%S"</span>)</span>:</span></span><br><span class="line">    dt = datetime.datetime.strptime(dt, fmt)</span><br><span class="line">    <span class="keyword">return</span> int(time.mktime(dt.timetuple()))</span><br></pre></td></tr></table></figure>
+<p>example <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">datetime_to_timestamp(<span class="string">'2019-12-10 23:10:17'</span>) <span class="comment"># get 1575990617</span></span><br></pre></td></tr></table></figure></p>
+]]></content>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Send Post Request with Python</title>
+    <url>/2019/12/09/Send-Post-Request-with-Python/</url>
+    <content><![CDATA[<h3 id="send-json">Send JSON</h3>
+<h4 id="whats-the-difference-between-the-json-and-data-parameters">What's the difference between the "json" and "data" parameters</h4>
+<p>Send with "json" parameter:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">payload = &#123;<span class="string">'key'</span>:<span class="string">'value'</span>&#125;</span><br><span class="line">rsp = requests.post(<span class="string">'http://some-site.com'</span>, json=payload)</span><br></pre></td></tr></table></figure>
+<p>Send with "data" parameter:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line">payload = &#123;<span class="string">'key'</span>:<span class="string">'value'</span>&#125;</span><br><span class="line">rsp = requests.post(<span class="string">'http://some-site.com'</span>, data=json.dumps(payload))</span><br></pre></td></tr></table></figure>
+<p>To see the difference, let's print the request headers and body.</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">req = requests.Request(<span class="string">'POST'</span>,url=<span class="string">'http://some-site.com'</span>,json=&#123;<span class="string">'key'</span>:<span class="string">'value'</span>&#125;)</span><br><span class="line">prep = req.prepare()</span><br><span class="line">print(<span class="string">'[with json] HTTP headers:'</span>, prep.headers)</span><br><span class="line">print(<span class="string">'[with json] HTTP body:'</span>, prep.body, type(prep.body))</span><br><span class="line"></span><br><span class="line">req = requests.Request(<span class="string">'POST'</span>,url=<span class="string">'http://some-site.com'</span>,data=json.dumps(&#123;<span class="string">'key'</span>:<span class="string">'value'</span>&#125;))</span><br><span class="line">prep = req.prepare()</span><br><span class="line">print(<span class="string">'[with data] HTTP headers:'</span>, prep.headers)</span><br><span class="line">print(<span class="string">'[with data] HTTP body:'</span>, prep.body, type(prep.body))</span><br></pre></td></tr></table></figure>
+<p>Output:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">[<span class="keyword">with</span> json] HTTP headers: &#123;<span class="string">'Content-Length'</span>: <span class="string">'16'</span>, <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>&#125;</span><br><span class="line">[<span class="keyword">with</span> json] HTTP body: <span class="string">b'&#123;"key": "value"&#125;'</span> &lt;<span class="class"><span class="keyword">class</span> '<span class="title">bytes</span>'&gt;</span></span><br><span class="line"><span class="class">[<span class="title">with</span> <span class="title">data</span>] <span class="title">HTTP</span> <span class="title">headers</span>:</span> &#123;<span class="string">'Content-Length'</span>: <span class="string">'16'</span>&#125;</span><br><span class="line">[<span class="keyword">with</span> data] HTTP body: &#123;<span class="string">"key"</span>: <span class="string">"value"</span>&#125; &lt;<span class="class"><span class="keyword">class</span> '<span class="title">str</span>'&gt;</span></span><br></pre></td></tr></table></figure>
+<p>The print shows they are the same except the request send with "json" parameter have the <code>"Content-Type=application/json"</code> header. (Ignore the type difference between the bodies, any string will be encoded into bytes before they could be send, the bodies in this example will all be utf-8 encoding bytes eventually)</p>
+<h3 id="whats-the-content-typejsonapplication-for">What's the content-type=json/application for?</h3>
+<p>HTTP body is some bytes. It can be binary data, utf-8-encoded json, etc. When you receive a HTTP request, how do you know how to decode the body? Here comes the content-type. It tells you the content type of the body. The <code>json/application</code> content type suggests you to decode it as json.</p>
+<p>Note that the content-type is not necessary, it's only a suggestion or a hint. You can decode the bytes in body in any ways you like, although you may fail to decode it.</p>
+<h3 id="other-content-type">Other Content-Type</h3>
+<h4 id="applicationx-www-form-urlencoded">application/x-www-form-urlencoded</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">req = requests.Request(<span class="string">'POST'</span>,url=<span class="string">'http://some-site.com'</span>,data=&#123;<span class="string">'key1'</span>:<span class="string">'value1'</span>, <span class="string">'key2'</span>:<span class="string">'value2'</span>&#125;)</span><br><span class="line">prep = req.prepare()</span><br><span class="line">print(<span class="string">'HTTP headers:'</span>, prep.headers)</span><br><span class="line">print(<span class="string">'HTTP body:'</span>, prep.body, type(prep.body))</span><br></pre></td></tr></table></figure>
+<p>Output</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">HTTP headers: &#123;&#39;Content-Length&#39;: &#39;23&#39;, &#39;Content-Type&#39;: &#39;application&#x2F;x-www-form-urlencoded&#39;&#125;</span><br><span class="line">HTTP body: key1&#x3D;value1&amp;key2&#x3D;value2 &lt;class &#39;str&#39;&gt;</span><br></pre></td></tr></table></figure>
+<p>The body is bytes encoded from string in format like "key1=value1&amp;key2=value2"</p>
+<h4 id="multipartform-data">multipart/form-data</h4>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">req = requests.Request(<span class="string">'POST'</span>,url=<span class="string">'http://some-site.com'</span>,files=[(<span class="string">'same-name'</span>,file),</span><br><span class="line">                                                                 (<span class="string">'same-name'</span>,file),</span><br><span class="line">                                                                 (<span class="string">'different-name'</span>,file)])</span><br><span class="line">prep = req.prepare()</span><br><span class="line">print(<span class="string">'HTTP headers:'</span>, prep.headers)</span><br><span class="line">print(<span class="string">'HTTP body:'</span>, prep.body.decode(), type(prep.body))</span><br></pre></td></tr></table></figure>
+<p>Output</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">HTTP headers: &#123;<span class="string">'Content-Length'</span>: <span class="string">'447'</span>, <span class="string">'Content-Type'</span>: <span class="string">'multipart/form-data; boundary=eabe8a9eda4c1b532c0be24a50c3c99e'</span>&#125;</span><br><span class="line">HTTP body: --eabe8a9eda4c1b532c0be24a50c3c99e</span><br><span class="line">Content-Disposition: form-data; name=<span class="string">"same-name"</span>; filename=<span class="string">"same-name"</span></span><br><span class="line"></span><br><span class="line">This <span class="keyword">is</span> file content.</span><br><span class="line">--eabe8a9eda4c1b532c0be24a50c3c99e</span><br><span class="line">Content-Disposition: form-data; name=<span class="string">"same-name"</span>; filename=<span class="string">"same-name"</span></span><br><span class="line"></span><br><span class="line">This <span class="keyword">is</span> file content.</span><br><span class="line">--eabe8a9eda4c1b532c0be24a50c3c99e</span><br><span class="line">Content-Disposition: form-data; name=<span class="string">"different-name"</span>; filename=<span class="string">"different-name"</span></span><br><span class="line"></span><br><span class="line">This <span class="keyword">is</span> file content.</span><br><span class="line">--eabe8a9eda4c1b532c0be24a50c3c99e--</span><br><span class="line"> &lt;<span class="class"><span class="keyword">class</span> '<span class="title">bytes</span>'&gt;</span></span><br></pre></td></tr></table></figure>
+<p>The body has several components: boundary to separate files, "Content-Disposition" to describe the "name" (we often write this attribute in HTML form), and the actual file content.</p>
+]]></content>
+      <tags>
+        <tag>Python</tag>
+        <tag>HTTP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ElasticSearch: Setting up a Single Node Cluster</title>
+    <url>/2019/12/08/ElasticSearch-Setting-up-a-Single-Node-Cluster/</url>
+    <content><![CDATA[<h5 id="download">Download</h5>
+<p>Elasticsearch is built using Java, so we need to check if java runtime environment is installed.</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">java --version</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="https://raw.githubusercontent.com/PanJianning/HistoricalReasons/master/java-version.png" alt="" /><figcaption>java-version</figcaption>
+</figure>
+<p>If not, install it with aptitude.</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt install default-jre</span><br></pre></td></tr></table></figure>
+<p>Then download the latest version of ElasticSearch from https://www.elastic.co/cn/downloads/elasticsearch</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.5.0-linux-x86_64.tar.gz</span><br></pre></td></tr></table></figure>
+<p>unzip it</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">tar -xvf https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.5.0-linux-x86_64.tar.gz</span><br></pre></td></tr></table></figure>
+<h5 id="configuration">Configuration</h5>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim elasticsearch-7.5.0/config/elasticsearch.yml</span><br></pre></td></tr></table></figure>
+<p>Some variables must be set properly in order to set up a single node ElasticSearch cluster.</p>
+<p>Firstly, we need to make a directory big enough for our data storage. For me, I make a directory under <code>/data/</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo mkdir &#x2F;data&#x2F;elasticsearch</span><br><span class="line">chown -R your-user-name &#x2F;data&#x2F;elasticsearch</span><br></pre></td></tr></table></figure>
+<p>sample configuration:</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">cluser.name:</span> <span class="string">awesome-cluster-name</span></span><br><span class="line"><span class="attr">node.name:</span> <span class="string">node-1</span></span><br><span class="line"><span class="attr">path.data:</span> <span class="string">/data/elasticsearch/data/</span></span><br><span class="line"><span class="attr">path.logs:</span> <span class="string">/data/elasticsearch/logs/</span></span><br><span class="line"><span class="attr">network.host:</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line"><span class="attr">discovery.seed_hosts:</span> <span class="string">["127.0.0.1",</span> <span class="string">"[::1]"</span><span class="string">]</span></span><br><span class="line"><span class="attr">cluster.initial_master_nodes:</span> <span class="string">["node-1"]</span></span><br></pre></td></tr></table></figure>
+<h5 id="run-elasticsearch">Run ElasticSearch</h5>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd elasticsearch-7.5.0/</span><br><span class="line">./bin/elasticsearch</span><br></pre></td></tr></table></figure>
+<p>to run as daemon</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./bin/elasticsearch -d</span><br></pre></td></tr></table></figure>
+<h5 id="possible-errors">Possible Errors</h5>
+<blockquote>
+<p>max virtual memory areas vm.max_map_count [65530] likely too low, increase to at least [262144]</p>
+</blockquote>
+<p>solution:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo sysctl -w vm.max_map_count=655360</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>ElasticSearch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>The History of Python</title>
+    <url>/2019/12/08/The-History-of-Python/</url>
+    <content><![CDATA[<p>The author of Python is Guido von Rossum, who comes from Dutch. In 1982, Guido received his master's degree in mathematics and computer science from the university of Amsterdam. However, although he was a mathematician, he enjoyed computers even more. In his words, despite his dual aptitude for mathematics and computing, he tends to do computer-related work and is keen to do anything related to programming.</p>
+<p>At that time, Guido was exposed to and used languages such as Pascal, C, and Fortran. The basic design principle of these languages is to make machines run faster. In the 1980s, computers are not powerful as today. Early Macintosh computers, for example, had only 8MHz cpus and 128KB of RAM. To increase efficiency, programmers have to think like computers so that they can write programs that are more machine-like. In those days, programmers wanted to squeeze every inch of a computer's power by hand. Some people even think that C Pointers are a waste of memory. As for dynamic typing, memory management, object orientation... Don't think about it. It will paralyze your computer.</p>
+<p>Guido frets about this programming approach. Guido knows how to write a function in C, but the whole process takes a lot of time, even if he knows exactly how to do it. His other option is the shell. The Bourne Shell has long existed as an interpreter for UNIX systems. UNIX administrators often use the shell to write simple scripts for system maintenance tasks such as regular backups, file system management, and so on. The shell can act as a glue that holds together many of the functions of UNIX. Many programs with hundreds of lines in C can be done in a few lines under the shell. The essence of the shell, however, is to invoke commands. It's not really a language. For example, shells don't have numeric data types, and add operations are complicated. In short, the shell can't fully leverage the computer's capabilities.</p>
+<p>Guido wanted a language that could fully invoke a computer's functional interface, like C, and program easily, like the shell. ABC language gives Guido hope. ABC was developed by the institute for mathematics and computing in the Netherlands. Guido worked at the institute and was involved in the development of the ABC language. ABC language is for teaching purposes. Unlike most languages of the time, the goal of the ABC language was to "make the user feel better." ABC wants to make languages easy to read, easy to use, easy to remember, and easy to learn, and to inspire people to learn programming. For example, here's an ABC program from Wikipedia that counts the total number of words that appear in text:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">HOW TO RETURN words document:</span><br><span class="line">   PUT &#123;&#125; IN collection</span><br><span class="line">   FOR line IN document:</span><br><span class="line">      FOR word IN split line:</span><br><span class="line">         IF word <span class="keyword">not</span>.<span class="keyword">in</span> collection:</span><br><span class="line">            INSERT word IN collection</span><br><span class="line">   RETURN collection</span><br></pre></td></tr></table></figure>
+<p>HOW TO is used TO define a function. This should be easy for a Python programmer to understand. The ABC language USES colons and indents to represent blocks. There is no semicolon at the end of the line. There are also no parentheses () in the for and if constructs. The assignment takes the PUT, rather than the more common equal sign. These changes make the ABC program read like a paragraph.</p>
+<p>Despite its readability and ease of use, the ABC language didn't catch on. At the time, the ABC compiler required a highly configured computer to run. And the users of these computers are usually computer literate, thinking more about the efficiency of the program than the difficulty of learning it. In addition to the hardware difficulties, the design of the ABC language also has some fatal problems:</p>
+<p>Poor extensibility. The ABC language is not a modular language. If you want to add features to the ABC language, such as graphical support, you have to change a lot.</p>
+<p>You can't do IO directly. The ABC language cannot directly manipulate the file system. Although you can import data through things like text streams, abcs cannot read or write files directly. Input-output difficulties are fatal to computer languages. Can you imagine a sports car that can't open the door?</p>
+<p>Overinnovate. ABC USES natural language TO express the meaning of a program, such as HOW TO in the program above. For programmers, however, they are more comfortable defining a function as function or define. Similarly, programmers prefer to assign variables with an equal sign. Although the ABC language is very special, it is also very difficult to learn.</p>
+<p>Difficulty in transmission. The ABC compiler is large and must be saved on tape. When Guido visited, he had to have a large tape to install the ABC compiler for someone else. This makes it difficult for the ABC language to spread quickly.</p>
+<p>In 1989, Guido began writing a Python compiler for Christmas break. The name Python comes from Guido's beloved television series Monty Python's Flying Circus. He wanted the new language, called Python, to fit his vision of creating a fully functional, easy-to-learn, extensible language between C and the shell. Guido, a fan of language design, has tried his hand at designing languages. This time, it was just plain hacking.</p>
+<p>In 1991, the first Python compiler was created. It is implemented in C and can call C library files. Python has had classes, functions, exception handling, core data types including tables and dictionaries, and module-based extensions since its birth.</p>
+<p>Much of the Python syntax comes from C, but is strongly influenced by the ABC language. Some of the rules from the ABC language are controversial to this day, such as mandatory indentation. But these syntax rules make Python easy to read. On the other hand, Python wisely chose to follow some conventions, especially those of the C language, such as return equals assignment. Guido argues that if "common sense" establishes something, there is no need to get too tangled up.</p>
+<p>Python was especially concerned with extensibility from the start. Python can be extended on multiple levels. At a high level, you can import the.py file directly. At the bottom, you can reference C libraries. Python programmers can quickly use the Python.py file as an extension module. But when performance is an important consideration, Python programmers can go to the bottom, write C programs, compile them into.so files and introduce them into Python. Python is like building a house out of steel. Programmers are quite free to extend or change within this framework.</p>
+<p>The original Python was entirely developed by Guido himself. Python was welcomed by Guido's colleagues. They were quick to give feedback and participate in Python improvements. Guido and some colleagues form the core Python team. They spend most of their spare time hacking Python. Python then expanded beyond the institute. Python hides many machine-level details for the compiler to handle and highlights logical programming thinking. Python programmers can spend more time thinking about the logic of their programs than the implementation details. This feature appeals to programmers in general. Python became popular.</p>
+]]></content>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+</search>
